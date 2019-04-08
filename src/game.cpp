@@ -74,7 +74,7 @@ void game::update(playerClass &myPlayerObject, myWindowClass &myWindowObject, ma
 game::game() // default constructor
 {
     playerScore = 0;
-    //loot.loadFromFile("");
+    loot.loadFromFile("../../sounds/itemLoot.wav");
     soundLoot.setBuffer(loot);
     soundLoot.setVolume(201);
     bgm.openFromFile("./data/sound/Marble Madness (NES) Music - Level 2 Theme.wav");
