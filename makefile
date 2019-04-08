@@ -1,22 +1,32 @@
+CC=cc
+
+SRC_DIR=src
+INCLUDE_DIR=include
+
+EXE=pickinSticks.out
+
+CFLAGS=-lstdc++ \
+			 -std=c++17 \
+			 -lsfml-graphics \
+			 -lsfml-system \
+			 -lsfml-window \
+			 -lsfml-audio \
+			 -I$(INCLUDE_DIR)/
+
+TARGETS=main.o \
+				window.o \
+				character.o \
+				map.o \
+				game.o
+
 all: main
 
-main: main.o window.o character.o map.o game.o
-	g++ main.o window.o character.o map.o game.o -o main.app -lsfml-graphics -lsfml-system -lsfml-window -lsfml-audio -std=c++17
+main: $(TARGETS)
+	$(CC) $(TARGETS) $(CFLAGS) -o $(EXE)
 
-main.o: main.cpp
-	g++ -c main.cpp
+$(TARGETS): $(wildcard $(SRC_DIR)/*.cpp)
+	$(CC) -c $(wildcard $(SRC_DIR)/*.cpp) -I$(INCLUDE_DIR)/
 
-window.o: window.cpp
-	g++ -c window.cpp
-
-character.o: character.cpp
-	g++ -c character.cpp
-
-map.o: map.cpp
-	g++ -c map.cpp
-
-game.o: game.cpp
-	g++ -c game.cpp
 
 clean:
-	rm main.o window.o character.o map.o game.o
+	rm -v $(TARGETS) *.out
