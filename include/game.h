@@ -6,22 +6,22 @@
 #include "map.h"
 #include "character.h"
 #include <SFML/Audio.hpp>
-class game
-{
-    public:
-        void update(playerClass &, myWindowClass &, map &, entityClass &);
-        game();
-        ~game();
-        sf::Music bgm;
-        void playLoot();
-        sf::Text getText();
-        void updateScore();
-    private:
-        unsigned int playerScore;
-        sf::SoundBuffer loot;
-        sf::Sound soundLoot;
-        sf::Font scoreFont;
-        sf::Text scoreText;
+
+class game {
+  public:
+    void update(playerClass &, myWindowClass &, map &, entityClass &);
+    game();
+    ~game();
+    sf::Music bgm;
+    void playLoot();
+    sf::Text getText();
+    void updateScore();
+  private:
+    unsigned int playerScore;
+    sf::SoundBuffer loot;
+    sf::Sound soundLoot;
+    sf::Font scoreFont;
+    sf::Text scoreText;
 };
 
 
