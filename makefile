@@ -26,3 +26,6 @@ $(OBJECTS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.cpp
 
 clean:
 	rm $(OBJECTS) $(EXE) -v
+
+run:
+	./$(EXE)

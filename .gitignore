@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# Some useless files
+*.swp
+*.swo
+vgcore*

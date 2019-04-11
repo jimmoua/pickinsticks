@@ -8,21 +8,24 @@ namespace {
   static sf::Font scoreFont;
   static sf::Text scoreText;
   static sf::Music bgm;
+
+  // Load a map
+  static map mo("./data/background.png");
+  // Create stick
+  static entityClass eo("./data/stick.png");
+  // Create player
+  static playerClass po("./data/character.png");
 }
 
 // Handle character movement and event processing, update as needed
-void game::update(playerClass   &myPlayerObject,
-                  map           &mapObject,
-                  entityClass   &entityClassObject) 
+void game::update() 
 {
   // Character speed
   float movespeed = 2.f;
   float spriteSize = 64.f;
-  sf::Time t1 = myPlayerObject.animationClock.getElapsedTime();
+  sf::Time t1 = po.animationClock.getElapsedTime();
 
   /* Because I've named them too long, I will use a ptr */
-  const auto mO = &mapObject;
-  const auto mPO = &myPlayerObject;
   const auto sS = spriteSize;
 
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) {
@@ -33,101 +36,101 @@ void game::update(playerClass   &myPlayerObject,
     /* I have put these autos here because of how much of an idiot I was back
      * then naming variables insane long names. I am now suffering in order to
      * make them more readable. */
-    auto yCol_1 = mO->mapView.getCenter().y;
-    auto yCol_2 = mO->mapView.getSize().y/2;
-    auto pPos_y = &(mPO->playerSprite.getPosition().y);
-    auto mVCenter = &(mO->mapView.getCenter().y);
+    auto yCol_1 = mo.mapView.getCenter().y;
+    auto yCol_2 = mo.mapView.getSize().y/2;
+    auto pPos_y = &(po.playerSprite.getPosition().y);
+    auto mVCenter = &(mo.mapView.getCenter().y);
     if( yCol_1 > yCol_2 && pPos_y == mVCenter) {
-      mO->mapView.move(0, -movespeed);
+      mo.mapView.move(0, -movespeed);
     }
 
-    auto x = sf::IntRect(mPO->animationCounter*spriteSize, 0, 64, 64);
-    mPO->playerSprite.setTextureRect(x);
+    auto x = sf::IntRect(po.animationCounter*spriteSize, 0, 64, 64);
+    po.playerSprite.setTextureRect(x);
     
     // Player Collision detection with the border
-    auto yCol2 = *pPos_y - mPO->playerSprite.getTextureRect().height/2;
+    auto yCol2 = *pPos_y - po.playerSprite.getTextureRect().height/2;
     if(yCol2 >= 0) {
-      myPlayerObject.playerSprite.move(0, -movespeed);
+      po.playerSprite.move(0, -movespeed);
     }
   }
   else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-    auto mapCenter_y = mapObject.mapView.getCenter().y;
-    auto map_misc = mO->mapSprite.getTextureRect().height
-      - mO->mapView.getSize().y/2;
-    auto pPos_y = myPlayerObject.playerSprite.getPosition().y;
+    auto mapCenter_y = mo.mapView.getCenter().y;
+    auto map_misc = mo.mapSprite.getTextureRect().height
+      - mo.mapView.getSize().y/2;
+    auto pPos_y = po.playerSprite.getPosition().y;
 
       if(mapCenter_y < map_misc && pPos_y == mapCenter_y) {
-        mapObject.mapView.move(0, movespeed);
+        mo.mapView.move(0, movespeed);
       }
       
-      auto x = sf::IntRect(mPO->animationCounter*spriteSize, 128, 64, 64);
-      myPlayerObject.playerSprite.setTextureRect(x);
+      auto x = sf::IntRect(po.animationCounter*spriteSize, 128, 64, 64);
+      po.playerSprite.setTextureRect(x);
 
-      auto pRectH_2 = myPlayerObject.playerSprite.getTextureRect().height/2;
-      auto mRectH = mapObject.mapSprite.getTextureRect().height;
-      auto pRectH = myPlayerObject.playerSprite.getTextureRect().height;
+      auto pRectH_2 = po.playerSprite.getTextureRect().height/2;
+      auto mRectH = mo.mapSprite.getTextureRect().height;
+      auto pRectH = po.playerSprite.getTextureRect().height;
 
       // Collision with bottom area of the map
       if(pPos_y - pRectH_2 <= mRectH - pRectH) {
-        myPlayerObject.playerSprite.move(0, movespeed);
+        po.playerSprite.move(0, movespeed);
       }
 
   }
   else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-    auto mCx = mapObject.mapView.getCenter().x;
-    auto mVsX = mapObject.mapView.getSize().x/2;
-    auto mPOSPx = myPlayerObject.playerSprite.getPosition().x;
+    auto mCx = mo.mapView.getCenter().x;
+    auto mVsX = mo.mapView.getSize().x/2;
+    auto mPOSPx = po.playerSprite.getPosition().x;
     if(mCx > mVsX && mPOSPx == mCx) {
-      mapObject.mapView.move(-movespeed, 0);
+      mo.mapView.move(-movespeed, 0);
     }
-    auto texRect = sf::IntRect(mPO->animationCounter*sS, sS, sS, sS);
-    myPlayerObject.playerSprite.setTextureRect(texRect);
-    auto pPosX = myPlayerObject.playerSprite.getPosition().x;
-    auto pSTexR = myPlayerObject.playerSprite.getTextureRect().width/2;
+    auto texRect = sf::IntRect(po.animationCounter*sS, sS, sS, sS);
+    po.playerSprite.setTextureRect(texRect);
+    auto pPosX = po.playerSprite.getPosition().x;
+    auto pSTexR = po.playerSprite.getTextureRect().width/2;
     if(pPosX - pSTexR>= 0) {
-      mPO->playerSprite.move(-movespeed, 0);
+      po.playerSprite.move(-movespeed, 0);
     }
   }
   else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-    auto mOmVCX = mapObject.mapView.getCenter().x;
-    auto mSGTR = mapObject.mapSprite.getTextureRect().width
-      - mapObject.mapView.getSize().x/2;
-    auto iunno = mPO->playerSprite.getPosition().x==mO->mapView.getCenter().x;
+    auto mOmVCX = mo.mapView.getCenter().x;
+    auto mSGTR = mo.mapSprite.getTextureRect().width -
+      mo.mapView.getSize().x/2;
+    auto iunno = po.playerSprite.getPosition().x==mo.mapView.getCenter().x;
       if( mOmVCX <  mSGTR && iunno) {
-        mapObject.mapView.move(movespeed, 0);
+        mo.mapView.move(movespeed, 0);
       }
-      auto fooRect = sf::IntRect(mPO->animationCounter*sS ,sS*3, sS, sS);
-      myPlayerObject.playerSprite.setTextureRect(fooRect);
+      auto fooRect = sf::IntRect(po.animationCounter*sS ,sS*3, sS, sS);
+      po.playerSprite.setTextureRect(fooRect);
 
-      auto baz = myPlayerObject.playerSprite.getPosition().x
-        - myPlayerObject.playerSprite.getTextureRect().width/2;
-      auto bar = mapObject.mapSprite.getTextureRect().width
-        - myPlayerObject.playerSprite.getTextureRect().width;
+      auto baz = po.playerSprite.getPosition().x
+        - po.playerSprite.getTextureRect().width/2;
+      auto bar = mo.mapSprite.getTextureRect().width
+        - po.playerSprite.getTextureRect().width;
       if(baz <= bar) {
-        myPlayerObject.playerSprite.move(movespeed, 0);
+        po.playerSprite.move(movespeed, 0);
       }
   }
   
-  if(myPlayerObject.animationCounter >= 8) {
-    myPlayerObject.animationCounter = 0;
+  if(po.animationCounter >= 8) {
+    po.animationCounter = 0;
   }
 
-  if(t1 >= myPlayerObject.t) {
-    myPlayerObject.animationCounter++;
-    myPlayerObject.animationClock.restart();
+  if(t1 >= po.t) {
+    po.animationCounter++;
+    po.animationClock.restart();
   }
   // Center with the map
   // Each time the player move, the maps centers with it.
   if(sf::Keyboard::isKeyPressed(sf::Keyboard::BackSpace)) {
-    entityClassObject.newPos(mapObject);
+    eo.newPos(mo);
   }
   
-  game::window::getWindow()->setView(mapObject.mapView);
+  game::window::getWindow()->setView(mo.mapView);
 
   // Checking for player interaction with stick
-  auto psGB = entityClassObject.yeah.playerSprite.getGlobalBounds();
-  if(myPlayerObject.playerSprite.getGlobalBounds().intersects(psGB)) {
-    entityClassObject.newPos(mapObject);
+  auto psGB = eo.yeah.playerSprite.getGlobalBounds();
+  if(po.playerSprite.getGlobalBounds().intersects(psGB)) {
+    eo.newPos(mo);
     playLoot();
     playerScore++;
     updateScore();
@@ -139,6 +142,11 @@ void game::update(playerClass   &myPlayerObject,
 
 void game::init() {
   window::init();
+
+  // Define starting position of player
+  po.playerSprite.setPosition(mo.mapSprite.getTextureRect().width/2,
+                              mo.mapSprite.getTextureRect().height/2);
+
   playerScore = 0;
   loot.loadFromFile("data/sound/itemLoot.wav");
   soundLoot.setBuffer(loot);
@@ -169,4 +177,30 @@ void game::updateScore() {
   std::string s = "Score: ";
   s.append(os.str());
   scoreText.setString(s);
+}
+
+void game::run() {
+  while(window::getWindow()->isOpen())
+  {
+    static sf::Event e;
+    while(window::getWindow()->pollEvent(e))
+    {
+      if(e.type == sf::Event::Closed) {
+        window::getWindow()->close();
+      }
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Equal)) {
+        window::getWindow()->close();
+      }
+    }
+    window::getWindow()->clear(sf::Color::Black);
+    window::getWindow()->draw(mo.mapSprite);
+    window::getWindow()->draw(po.playerSprite);
+    window::getWindow()->draw(eo.yeah.playerSprite);
+    window::getWindow()->draw(game::getText());
+
+    // handling movement and stuff
+    update();
+
+    window::getWindow()->display();
+  }
 }

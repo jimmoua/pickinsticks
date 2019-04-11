@@ -8,9 +8,10 @@
 #include <SFML/Audio.hpp>
 
 namespace game {
-  void update(playerClass &, map &, entityClass &);
+  void update();
   void init();
   void playLoot();
   const sf::Text& getText();
   void updateScore();
+  void run();
 }

@@ -9,6 +9,8 @@ namespace game {
   namespace window {
     void init();
     sf::RenderWindow* getWindow();
+    const unsigned short int& gwinResX();
+    const unsigned short int& gwinResY();
   }
 }
 
