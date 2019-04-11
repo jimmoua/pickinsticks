@@ -2,22 +2,26 @@
 
 namespace {
   static sf::RenderWindow myRenderWindow;
-  const static sf::Vector2u window_reso(640, 480);
+  constexpr unsigned short int winResX = 640u;
+  constexpr unsigned short int winResY = 480u;
 }
 
 void game::window::init() {
   // Create a window with video modes of specific resolutions. The title is
   // called "Game" and do not allow for the window to be resizable.
-  myRenderWindow.create(sf::VideoMode(window_reso.x, window_reso.y),
+  myRenderWindow.create(sf::VideoMode(winResX, winResY),
                         "Game",
                         sf::Style::Close);
   myRenderWindow.setFramerateLimit(60u);
 }
 
-sf::RenderWindow* game::window::getWindow() {
-  return &myRenderWindow;
+sf::RenderWindow* game::window::getWindow() { return &myRenderWindow; }
+
+const unsigned short int& game::window::gwinResX() {
+  return winResX;
 }
 
-const sf::Vector2u game::window::getWinReso() {
-  return window_reso;
+
+const unsigned short int& game::window::gwinResY() {
+  return winResY;
 }
