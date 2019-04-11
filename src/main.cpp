@@ -7,7 +7,7 @@ int main() {
   map mo("./data/background.png");
   entityClass eo("./data/stick.png");
   playerClass po("./data/character.png");
-  game engine;
+  game::init();
   myWindowClass wo("Pickin' Sticks");
 
   // I did not set the starting position of the character inside the class, so
@@ -26,10 +26,10 @@ int main() {
     wo.myRenderWindow.draw(mo.mapSprite);
     wo.myRenderWindow.draw(po.playerSprite);
     wo.myRenderWindow.draw(eo.yeah.playerSprite);
-    wo.myRenderWindow.draw(engine.getText());
+    wo.myRenderWindow.draw(game::getText());
 
     // handling movement and stuff
-    engine.update(po, wo, mo, eo);
+    game::update(po, wo, mo, eo);
     wo.myRenderWindow.display();
   }
   return 0;

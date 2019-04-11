@@ -1,6 +1,15 @@
 #include "game.h"
 #include <sstream>
 
+namespace {
+  static unsigned int playerScore;
+  static sf::SoundBuffer loot;
+  static sf::Sound soundLoot;
+  static sf::Font scoreFont;
+  static sf::Text scoreText;
+  static sf::Music bgm;
+}
+
 // Handle character movement and event processing, update as needed
 void game::update(playerClass   &myPlayerObject,
                   myWindowClass &myWindowObject,
@@ -129,7 +138,7 @@ void game::update(playerClass   &myPlayerObject,
   } 
 }
 
-game::game() {
+void game::init() {
   playerScore = 0;
   loot.loadFromFile("data/sound/itemLoot.wav");
   soundLoot.setBuffer(loot);
@@ -145,13 +154,12 @@ game::game() {
   scoreText.setCharacterSize(32u); // font size to 32
   updateScore();
 }
-game::~game() { }
 
 void game::playLoot() {
   soundLoot.play();
 }
 
-sf::Text game::getText() {
+const sf::Text& game::getText() {
   return scoreText;
 }
 
