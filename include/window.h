@@ -9,6 +9,7 @@ namespace game {
   namespace window {
     void init();
     sf::RenderWindow* getWindow();
+    const sf::Vector2u getWinReso();
   }
 }
 

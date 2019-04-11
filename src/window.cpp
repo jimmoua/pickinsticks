@@ -17,3 +17,7 @@ void game::window::init() {
 sf::RenderWindow* game::window::getWindow() {
   return &myRenderWindow;
 }
+
+const sf::Vector2u game::window::getWinReso() {
+  return window_reso;
+}
