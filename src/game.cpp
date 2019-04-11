@@ -12,7 +12,6 @@ namespace {
 
 // Handle character movement and event processing, update as needed
 void game::update(playerClass   &myPlayerObject,
-                  myWindowClass &myWindowObject,
                   map           &mapObject,
                   entityClass   &entityClassObject) 
 {
@@ -123,7 +122,7 @@ void game::update(playerClass   &myPlayerObject,
     entityClassObject.newPos(mapObject);
   }
   
-  myWindowObject.myRenderWindow.setView(mapObject.mapView);
+  game::window::getWindow()->setView(mapObject.mapView);
 
   // Checking for player interaction with stick
   auto psGB = entityClassObject.yeah.playerSprite.getGlobalBounds();
@@ -139,6 +138,7 @@ void game::update(playerClass   &myPlayerObject,
 }
 
 void game::init() {
+  window::init();
   playerScore = 0;
   loot.loadFromFile("data/sound/itemLoot.wav");
   soundLoot.setBuffer(loot);

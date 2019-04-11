@@ -8,7 +8,7 @@
 #include <SFML/Audio.hpp>
 
 namespace game {
-  void update(playerClass &, myWindowClass &, map &, entityClass &);
+  void update(playerClass &, map &, entityClass &);
   void init();
   void playLoot();
   const sf::Text& getText();

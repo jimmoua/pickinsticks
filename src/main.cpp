@@ -8,29 +8,28 @@ int main() {
   entityClass eo("./data/stick.png");
   playerClass po("./data/character.png");
   game::init();
-  myWindowClass wo("Pickin' Sticks");
 
   // I did not set the starting position of the character inside the class, so
   // I will do it inside main.
   po.playerSprite.setPosition(mo.mapSprite.getTextureRect().width/2,
                               mo.mapSprite.getTextureRect().height/2);
-  while(wo.myRenderWindow.isOpen())
+  while(game::window::getWindow()->isOpen())
   {
     sf::Event e;
-    while(wo.myRenderWindow.pollEvent(e))
+    while(game::window::getWindow()->pollEvent(e))
     {
       if(e.type == sf::Event::Closed) {
-        wo.myRenderWindow.close();
+        game::window::getWindow()->close();
       }
     }
-    wo.myRenderWindow.draw(mo.mapSprite);
-    wo.myRenderWindow.draw(po.playerSprite);
-    wo.myRenderWindow.draw(eo.yeah.playerSprite);
-    wo.myRenderWindow.draw(game::getText());
+    game::window::getWindow()->draw(mo.mapSprite);
+    game::window::getWindow()->draw(po.playerSprite);
+    game::window::getWindow()->draw(eo.yeah.playerSprite);
+    game::window::getWindow()->draw(game::getText());
 
     // handling movement and stuff
-    game::update(po, wo, mo, eo);
-    wo.myRenderWindow.display();
+    game::update(po, mo, eo);
+    game::window::getWindow()->display();
   }
   return 0;
 }

@@ -1,12 +1,19 @@
 #include "window.h"
 
-myWindowClass::myWindowClass(const std::string &titleName) {
-  auto vm = sf::VideoMode(window_reso.x, window_reso.y);
-  myRenderWindow.create(vm, titleName, sf::Style::Close);
-  myRenderWindow.setFramerateLimit(60);
+namespace {
+  static sf::RenderWindow myRenderWindow;
+  const static sf::Vector2u window_reso(640, 480);
 }
 
-myWindowClass::myWindowClass() {
-  auto vm = sf::VideoMode(window_reso.x, window_reso.y);
-  myRenderWindow.create(vm , "Game", sf::Style::Close);
+void game::window::init() {
+  // Create a window with video modes of specific resolutions. The title is
+  // called "Game" and do not allow for the window to be resizable.
+  myRenderWindow.create(sf::VideoMode(window_reso.x, window_reso.y),
+                        "Game",
+                        sf::Style::Close);
+  myRenderWindow.setFramerateLimit(60u);
+}
+
+sf::RenderWindow* game::window::getWindow() {
+  return &myRenderWindow;
 }
